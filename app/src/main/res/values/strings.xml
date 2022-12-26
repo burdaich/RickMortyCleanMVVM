@@ -1,0 +1,9 @@
+<resources>
+    <string name="app_name">RickMortyCleanMVVM</string>
+    <string name="characters">Characters</string>
+    <string name="favorites">Favorites</string>
+    <string name="add_to_favorites">Add to favorites</string>
+    <string name="character_info_title">Character Info</string>
+    <string name="rick_and_morty_splash" translatable="false">Rick and Morty</string>
+    <string name="mvvm_clean_architecture" translatable="false">MVVM Clean Architecture</string>
+</resources>

@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">RickMortyCleanMVVM</string>
+    <string name="characters">Caracteres</string>
+    <string name="favorites">Favoritos</string>
+    <string name="add_to_favorites">Añadir a favoritos</string>
+    <string name="character_info_title">Información del personaje</string>
+</resources>

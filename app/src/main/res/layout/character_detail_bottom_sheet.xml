@@ -1,0 +1,157 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="600dp">
+
+        <ImageButton
+            android:id="@+id/backArrowIB"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_margin="16dp"
+            android:background="@color/white"
+            android:src="@drawable/ic_arrow_back"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/characterDetailCIV"
+            android:layout_width="96dp"
+            android:layout_height="96dp"
+            android:src="@drawable/ic_person"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.10" />
+
+        <com.google.android.material.divider.MaterialDivider
+            android:id="@+id/divider"
+            android:layout_width="0dp"
+            android:layout_height="2dp"
+            android:layout_marginHorizontal="24dp"
+            android:layout_marginTop="4dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/characterDetailInfoTV" />
+
+        <TextView
+            android:id="@+id/characterDetailInfoTV"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="24dp"
+            android:layout_marginTop="16dp"
+            android:text="@string/character_info_title"
+            android:textColor="@color/teal_700"
+            android:textSize="24sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/characterDetailCIV" />
+
+        <ImageView
+            android:id="@+id/characterNameIV"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:layout_marginTop="16dp"
+            android:src="@drawable/ic_name"
+            app:layout_constraintStart_toStartOf="@+id/characterDetailInfoTV"
+            app:layout_constraintTop_toBottomOf="@+id/divider" />
+
+        <ImageView
+            android:id="@+id/characterStatusIV"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:layout_marginTop="8dp"
+            android:src="@drawable/ic_status"
+            app:layout_constraintStart_toStartOf="@+id/characterNameIV"
+            app:layout_constraintTop_toBottomOf="@+id/characterNameIV" />
+
+        <ImageView
+            android:id="@+id/characterSpeciesIV"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:layout_marginTop="8dp"
+            android:src="@drawable/ic_species"
+            app:layout_constraintStart_toStartOf="@+id/characterStatusIV"
+            app:layout_constraintTop_toBottomOf="@+id/characterStatusIV" />
+
+        <ImageView
+            android:id="@+id/characterGenderIV"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:layout_marginTop="8dp"
+            android:src="@drawable/ic_gender"
+            app:layout_constraintStart_toStartOf="@+id/characterSpeciesIV"
+            app:layout_constraintTop_toBottomOf="@+id/characterSpeciesIV" />
+
+        <TextView
+            android:id="@+id/characterDetailNameTV"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="8dp"
+            android:layout_marginStart="16dp"
+            android:gravity="center"
+            android:textColor="@color/teal_400"
+            android:textSize="20sp"
+            app:layout_constraintBottom_toBottomOf="@+id/characterNameIV"
+            app:layout_constraintStart_toEndOf="@+id/characterNameIV"
+            app:layout_constraintTop_toTopOf="@+id/characterNameIV"
+            tools:text="Name" />
+
+        <TextView
+            android:id="@+id/characterDetailStatusTV"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:textColor="@color/teal_400"
+            android:textSize="20sp"
+            app:layout_constraintBottom_toBottomOf="@+id/characterStatusIV"
+            app:layout_constraintStart_toStartOf="@+id/characterDetailNameTV"
+            app:layout_constraintTop_toTopOf="@+id/characterStatusIV"
+            tools:text="Status" />
+
+        <TextView
+            android:id="@+id/characterDetailSpeciesTV"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:textColor="@color/teal_400"
+            android:textSize="20sp"
+            app:layout_constraintBottom_toBottomOf="@+id/characterSpeciesIV"
+            app:layout_constraintStart_toStartOf="@+id/characterDetailNameTV"
+            app:layout_constraintTop_toTopOf="@+id/characterSpeciesIV"
+            tools:text="Species" />
+
+        <TextView
+            android:id="@+id/characterDetailGenderTV"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:textColor="@color/teal_400"
+            android:textSize="20sp"
+            app:layout_constraintBottom_toBottomOf="@+id/characterGenderIV"
+            app:layout_constraintStart_toStartOf="@+id/characterDetailNameTV"
+            app:layout_constraintTop_toTopOf="@+id/characterGenderIV"
+            tools:text="Location" />
+
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/characterDetailAddToFavoritesB"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="16dp"
+            android:layout_marginBottom="24dp"
+            android:background="@drawable/button_corners"
+            android:drawableEnd="@drawable/ic_star"
+            android:drawableTint="@color/grey"
+            android:paddingEnd="8dp"
+            android:text="@string/add_to_favorites"
+            android:textColor="@color/white"
+            app:layout_constraintBottom_toBottomOf="parent" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.coordinatorlayout.widget.CoordinatorLayout>
