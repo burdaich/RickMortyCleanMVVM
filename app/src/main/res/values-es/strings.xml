@@ -5,4 +5,8 @@
     <string name="favorites">Favoritos</string>
     <string name="add_to_favorites">Añadir a favoritos</string>
     <string name="character_info_title">Información del personaje</string>
+    <string name="character_added_favorite">Personaje favorito</string>
+    <string name="accept">Aceptar</string>
+    <string name="remove_from_favorites">Eliminar de favoritos</string>
+    <string name="character_removed_favorite">Eliminado de favoritos</string>
 </resources>

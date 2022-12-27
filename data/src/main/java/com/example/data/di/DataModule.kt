@@ -1,12 +1,16 @@
 package com.example.data.di
 
+import android.content.Context
+import androidx.room.Room
 import com.example.data.api.Api
+import com.example.data.database.databases.CharacterDatabase
 import com.example.data.repository.CharactersRepositoryImpl
 import com.example.domain.common.Constants
 import com.example.domain.repository.CharactersRepository
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
+import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
@@ -28,7 +32,20 @@ object DataModule {
 
     @Provides
     @Singleton
-    fun provideCharactersRepository(api: Api): CharactersRepository {
-        return CharactersRepositoryImpl(api)
+    fun provideCharacterBBDD(@ApplicationContext appContext: Context): CharacterDatabase {
+        return Room.databaseBuilder(
+            appContext,
+            CharacterDatabase::class.java,
+            CharacterDatabase.DATABASE_NAME
+        ).build()
+    }
+
+    @Provides
+    @Singleton
+    fun provideCharactersRepository(
+        api: Api,
+        characterDatabase: CharacterDatabase
+    ): CharactersRepository {
+        return CharactersRepositoryImpl(api, characterDatabase)
     }
 }

@@ -6,4 +6,8 @@
     <string name="character_info_title">Character Info</string>
     <string name="rick_and_morty_splash" translatable="false">Rick and Morty</string>
     <string name="mvvm_clean_architecture" translatable="false">MVVM Clean Architecture</string>
+    <string name="character_added_favorite">Favorite character</string>
+    <string name="accept">Accept</string>
+    <string name="remove_from_favorites">Remove from favorites</string>
+    <string name="character_removed_favorite">Removed from favorites</string>
 </resources>
