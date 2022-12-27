@@ -5,17 +5,19 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#FF8DC75D"
-    tools:context=".view.activities.MainActivity"
-    tools:ignore="MissingDefaultResource">
+    tools:context=".view.activities.MainActivity">
 
-    <ImageView
-        android:layout_width="wrap_content"
+    <com.airbnb.lottie.LottieAnimationView
         android:layout_height="wrap_content"
-        android:src="@drawable/rick_and_morty"
-        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
+        android:layout_width="wrap_content"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:lottie_autoPlay="true"
+        app:lottie_loop="true"
+        app:lottie_rawRes="@raw/mortycryanimation"
         app:layout_constraintTop_toTopOf="parent" />
+
 
     <TextView
         android:layout_width="wrap_content"

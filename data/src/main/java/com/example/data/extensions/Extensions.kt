@@ -8,8 +8,11 @@ import com.example.domain.model.Character
 import com.example.domain.model.Characters
 import com.example.domain.model.CharactersInfo
 
-fun CharactersModel.toCharacters(): Characters {
-    return Characters(info = info.toCharactersInfo(), characters = results.toCharacters())
+fun CharactersModel.characterModelToCharacters(): Characters {
+    return Characters(
+        info = info.toCharactersInfo(),
+        characters = results.characterModelToCharacters()
+    )
 }
 
 fun CharactersInfoModel.toCharactersInfo(): CharactersInfo {
@@ -27,7 +30,7 @@ fun CharacterModel.toCharacter(): Character {
     )
 }
 
-fun List<CharacterModel>.toCharacters(): List<Character> {
+fun List<CharacterModel>.characterModelToCharacters(): List<Character> {
     return map { it.toCharacter() }
 }
 
@@ -38,11 +41,15 @@ fun Character.toCharacterEntity(): CharacterEntity {
 fun CharacterEntity.toCharacter(): Character {
     return Character(
         gender = gender,
-        id = id,
+        id = apiId,
         image = image,
         name = name,
         status = status,
         species = species,
         isFavorite = isFavorite
     )
+}
+
+fun List<CharacterEntity>.characterEntityToCharacters(): List<Character> {
+    return map { it.toCharacter() }
 }

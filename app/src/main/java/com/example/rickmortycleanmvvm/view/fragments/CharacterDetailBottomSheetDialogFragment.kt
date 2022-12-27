@@ -21,7 +21,10 @@ import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class CharacterDetailBottomSheetDialogFragment(private val character: Character) :
+class CharacterDetailBottomSheetDialogFragment(
+    private val character: Character,
+    private val callback: (() -> Unit)?
+) :
     BottomSheetDialogFragment() {
 
     private lateinit var viewModel: CharacterDetailViewModel
@@ -41,7 +44,8 @@ class CharacterDetailBottomSheetDialogFragment(private val character: Character)
         addDataToUI()
         buildListeners()
         observeResponse()
-        viewModel.getCharacterFavoriteByApiId(character.id)
+
+        if (!character.isFavorite) viewModel.getCharacterFavoriteByApiId(character.id)
     }
 
     private fun buildListeners() {
@@ -57,6 +61,8 @@ class CharacterDetailBottomSheetDialogFragment(private val character: Character)
         binding.characterDetailStatusTV.text = character.status
         binding.characterDetailSpeciesTV.text = character.species
         binding.characterDetailGenderTV.text = character.gender
+
+        changeStarColorAndDescription(character.isFavorite)
     }
 
     private fun observeResponse() {
@@ -94,7 +100,13 @@ class CharacterDetailBottomSheetDialogFragment(private val character: Character)
             text = getString(R.string.accept)
             background =
                 ContextCompat.getDrawable(requireContext(), R.drawable.button_corners)
-            setOnClickListener { lottieDialog.dismiss() }
+            setOnClickListener {
+                lottieDialog.dismiss()
+                callback?.let {
+                    it()
+                    dismiss()
+                }
+            }
             setTextColor(ContextCompat.getColor(requireContext(), R.color.white))
         }
 
@@ -114,8 +126,12 @@ class CharacterDetailBottomSheetDialogFragment(private val character: Character)
     }
 
     companion object {
-        fun show(fragmentManager: FragmentManager, character: Character) =
-            CharacterDetailBottomSheetDialogFragment(character).show(
+        fun show(
+            fragmentManager: FragmentManager,
+            character: Character,
+            callback: (() -> Unit)? = null
+        ) =
+            CharacterDetailBottomSheetDialogFragment(character, callback).show(
                 fragmentManager, this::
                 class.java.name
             )

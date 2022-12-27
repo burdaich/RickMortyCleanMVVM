@@ -8,5 +8,6 @@ interface CharactersRepository {
     suspend fun getCharactersByName(name: String): Characters
     suspend fun addCharacterToFavorite(character: Character): Long
     suspend fun getCharactersFavorite(apiId: Int): Character?
+    suspend fun getFavoritesCharacters(): List<Character>
     suspend fun deleteFromFavorites(apiId: Int): Int
 }

@@ -1,19 +1,17 @@
 package com.example.rickmortycleanmvvm.view.fragments
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.widget.addTextChangedListener
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.domain.model.Character
 import com.example.rickmortycleanmvvm.adapter.CharactersAdapter
 import com.example.rickmortycleanmvvm.databinding.FragmentCharactersBinding
 import com.example.rickmortycleanmvvm.viewmodel.CharactersViewModel
 import dagger.hilt.android.AndroidEntryPoint
-import com.example.domain.model.Character
-import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 
 @AndroidEntryPoint
 class CharactersFragment : BaseFragment<CharactersViewModel>() {
@@ -68,11 +66,9 @@ class CharactersFragment : BaseFragment<CharactersViewModel>() {
     }
 
     private fun callback(character: Character) {
-        activity?.supportFragmentManager?.let {
             CharacterDetailBottomSheetDialogFragment.show(
-                it,
+                childFragmentManager,
                 character
             )
-        }
     }
 }
