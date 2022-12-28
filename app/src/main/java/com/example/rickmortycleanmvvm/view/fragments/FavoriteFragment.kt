@@ -7,12 +7,14 @@ import android.view.ViewGroup
 import android.widget.GridLayout
 import androidx.core.view.isVisible
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.GridLayoutManager
 import com.example.domain.model.Character
 import com.example.rickmortycleanmvvm.adapter.CharactersFavoritesAdapter
 import com.example.rickmortycleanmvvm.databinding.FragmentFavoriteBinding
 import com.example.rickmortycleanmvvm.viewmodel.FavoritesCharactersViewModel
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class FavoriteFragment : BaseFragment<FavoritesCharactersViewModel>() {
@@ -39,11 +41,13 @@ class FavoriteFragment : BaseFragment<FavoritesCharactersViewModel>() {
     }
 
     private fun observeCharactersFavoritesResponse() {
-        viewModel.state.observe(viewLifecycleOwner) {
-            if (!it.isLoading) {
-                if (it.error.isBlank()) {
-                    charactersFavoritesAdapter.submitList(it.characters)
-                    manageLayoutsVisibilities(it.characters?.isEmpty() ?: true)
+        lifecycleScope.launch {
+            viewModel.state.collect {
+                if (!it.isLoading) {
+                    if (it.error.isBlank()) {
+                        charactersFavoritesAdapter.submitList(it.characters)
+                        manageLayoutsVisibilities(it.characters?.isEmpty() ?: true)
+                    }
                 }
             }
         }

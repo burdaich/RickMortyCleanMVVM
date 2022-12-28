@@ -1,17 +1,21 @@
 package com.example.rickmortycleanmvvm.view.fragments
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.widget.addTextChangedListener
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.domain.model.Character
 import com.example.rickmortycleanmvvm.adapter.CharactersAdapter
 import com.example.rickmortycleanmvvm.databinding.FragmentCharactersBinding
 import com.example.rickmortycleanmvvm.viewmodel.CharactersViewModel
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class CharactersFragment : BaseFragment<CharactersViewModel>() {
@@ -33,13 +37,11 @@ class CharactersFragment : BaseFragment<CharactersViewModel>() {
         buildAdapter()
         observeCharactersResponse()
         buildListeners()
+        observeAdapterLoadStates()
+        viewModel.getCharactersByName()
     }
 
     private fun buildListeners() {
-        binding.charactersSRL.setOnRefreshListener {
-            viewModel.getCharacters()
-        }
-
         binding.charactersFindET.addTextChangedListener {
             viewModel.getCharactersByName(it.toString())
         }
@@ -55,20 +57,25 @@ class CharactersFragment : BaseFragment<CharactersViewModel>() {
     }
 
     private fun observeCharactersResponse() {
-        viewModel.state.observe(viewLifecycleOwner) {
-            if (!it.isLoading) {
-                if (it.error.isBlank()) {
-                    binding.charactersSRL.isRefreshing = false
-                    charactersAdapter.submitList(it.characters?.characters)
-                }
+        lifecycleScope.launch {
+            viewModel.state.collect {
+                charactersAdapter.submitData(viewLifecycleOwner.lifecycle, it)
+            }
+        }
+    }
+
+    private fun observeAdapterLoadStates() {
+        lifecycleScope.launch {
+            charactersAdapter.loadStateFlow.collectLatest {
+                Log.d("TAG", it.refresh.toString())
             }
         }
     }
 
     private fun callback(character: Character) {
-            CharacterDetailBottomSheetDialogFragment.show(
-                childFragmentManager,
-                character
-            )
+        CharacterDetailBottomSheetDialogFragment.show(
+            childFragmentManager,
+            character
+        )
     }
 }

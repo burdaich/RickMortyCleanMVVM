@@ -22,19 +22,12 @@
         app:layout_constraintTop_toTopOf="parent"
         tools:text="Buscar personaje" />
 
-    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
-        android:id="@+id/charactersSRL"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_marginTop="8dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="@id/charactersFindET"
-        app:layout_constraintStart_toStartOf="@id/charactersFindET"
-        app:layout_constraintTop_toBottomOf="@id/charactersFindET">
-
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/charactersRV"
             android:layout_width="match_parent"
-            android:layout_height="match_parent" />
-    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+            android:layout_height="0dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="@id/charactersFindET"
+            app:layout_constraintStart_toStartOf="@id/charactersFindET"
+            app:layout_constraintTop_toBottomOf="@id/charactersFindET" />
 </androidx.constraintlayout.widget.ConstraintLayout>

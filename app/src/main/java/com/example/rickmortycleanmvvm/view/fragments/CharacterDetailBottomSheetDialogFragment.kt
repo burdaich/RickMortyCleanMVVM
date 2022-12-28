@@ -11,6 +11,7 @@ import androidx.core.content.ContextCompat
 import androidx.core.widget.TextViewCompat
 import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.lifecycleScope
 import com.amrdeveloper.lottiedialog.LottieDialog
 import com.bumptech.glide.Glide
 import com.example.domain.model.Character
@@ -19,6 +20,7 @@ import com.example.rickmortycleanmvvm.databinding.CharacterDetailBottomSheetBind
 import com.example.rickmortycleanmvvm.viewmodel.CharacterDetailViewModel
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class CharacterDetailBottomSheetDialogFragment(
@@ -66,10 +68,12 @@ class CharacterDetailBottomSheetDialogFragment(
     }
 
     private fun observeResponse() {
-        viewModel.state.observe(viewLifecycleOwner) {
-            if (it.error.isEmpty()) {
-                changeStarColorAndDescription(it.character?.isFavorite)
-                if (it.isUpdated) showUpdateConfirmationDialog(it.character?.isFavorite)
+        lifecycleScope.launch {
+            viewModel.state.collect {
+                if (it.error.isEmpty()) {
+                    changeStarColorAndDescription(it.character?.isFavorite)
+                    if (it.isUpdated) showUpdateConfirmationDialog(it.character?.isFavorite)
+                }
             }
         }
     }

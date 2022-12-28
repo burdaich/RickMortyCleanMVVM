@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
@@ -14,7 +15,7 @@ import com.example.rickmortycleanmvvm.databinding.CharacterElementBinding
 import de.hdodenhof.circleimageview.CircleImageView
 
 class CharactersAdapter(private val callback: (character: Character) -> Unit) :
-    ListAdapter<Character, CharactersAdapter.ViewHolder>(CharacterDiffUtilCallBack) {
+    PagingDataAdapter<Character, CharactersAdapter.ViewHolder>(CharacterDiffUtilCallBack) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val itemBinding = CharacterElementBinding.inflate(
@@ -27,12 +28,12 @@ class CharactersAdapter(private val callback: (character: Character) -> Unit) :
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val character = getItem(position)
 
-        Glide.with(holder.characterCIV.context).load(character.image).into(holder.characterCIV)
-        holder.characterNameTV.text = character.name
-        holder.characterStatusTV.text = character.status
+        Glide.with(holder.characterCIV.context).load(character?.image).into(holder.characterCIV)
+        holder.characterNameTV.text = character?.name
+        holder.characterStatusTV.text = character?.status
 
         holder.characterCL.setOnClickListener {
-            callback(character)
+            character?.let { it1 -> callback(it1) }
         }
     }
 

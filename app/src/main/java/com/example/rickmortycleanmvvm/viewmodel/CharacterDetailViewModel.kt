@@ -1,7 +1,5 @@
 package com.example.rickmortycleanmvvm.viewmodel
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.domain.common.Resource
@@ -11,8 +9,9 @@ import com.example.domain.uses_case.get_characters.GetCharacterFavoriteByApiIdUs
 import com.example.domain.uses_case.remove_characters.RemoveCharacterFromFavoriteUsesCase
 import com.example.rickmortycleanmvvm.model.CharacterDetailState
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.flow.launchIn
-import kotlinx.coroutines.flow.onEach
+import kotlinx.coroutines.flow.MutableSharedFlow
+import kotlinx.coroutines.flow.SharedFlow
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
@@ -23,45 +22,57 @@ class CharacterDetailViewModel @Inject constructor(
 ) :
     ViewModel() {
 
-    private val _state = MutableLiveData<CharacterDetailState>()
-    val state: LiveData<CharacterDetailState> = _state
+    private val _state = MutableSharedFlow<CharacterDetailState>()
+    val state: SharedFlow<CharacterDetailState> = _state
 
     fun getCharacterFavoriteByApiId(apiId: Int) {
-        getCharacterFavoriteByApiIdUsesCase(apiId).onEach { result ->
-            when (result) {
-                is Resource.Loading -> _state.value = CharacterDetailState(isLoading = true)
-                is Resource.Success -> {
-                    _state.value = CharacterDetailState(character = result.data)
+        viewModelScope.launch {
+            getCharacterFavoriteByApiIdUsesCase(apiId).collect { result ->
+                when (result) {
+                    is Resource.Loading -> _state.emit(CharacterDetailState(isLoading = true))
+                    is Resource.Success -> {
+                        _state.emit(CharacterDetailState(character = result.data))
+                    }
+                    is Resource.Error -> _state.emit(
+                        CharacterDetailState(
+                            error = result.message ?: "An unexpected error ocurred!"
+                        )
+                    )
                 }
-                is Resource.Error -> _state.value =
-                    CharacterDetailState(error = result.message ?: "An unexpected error ocurred!")
             }
-        }.launchIn(viewModelScope)
+        }
     }
 
     private fun addCharacterToFavorite(character: Character) {
-        addCharacterToFavoriteUsesCase(character).onEach { result ->
-            manageCharacterUpdates(result, character)
-        }.launchIn(viewModelScope)
+        viewModelScope.launch {
+            addCharacterToFavoriteUsesCase(character).collect { result ->
+                manageCharacterUpdates(result, character)
+            }
+        }
     }
 
     private fun removeCharacterFromFavorite(character: Character) {
-        removeCharacterFromFavoriteUsesCase(character).onEach { result ->
-            manageCharacterUpdates(result, character)
-        }.launchIn(viewModelScope)
+        viewModelScope.launch {
+            removeCharacterFromFavoriteUsesCase(character).collect { result ->
+                manageCharacterUpdates(result, character)
+            }
+        }
     }
 
-    private fun manageCharacterUpdates(
+    private suspend fun manageCharacterUpdates(
         result: Resource<Character>,
         character: Character
     ) {
         when (result) {
-            is Resource.Loading -> _state.value = CharacterDetailState(isLoading = true)
+            is Resource.Loading -> _state.emit(CharacterDetailState(isLoading = true))
             is Resource.Success -> {
-                _state.value = CharacterDetailState(character = character, isUpdated = true)
+                _state.emit(CharacterDetailState(character = character, isUpdated = true))
             }
-            is Resource.Error -> _state.value =
-                CharacterDetailState(error = result.message ?: "An unexpected error ocurred!")
+            is Resource.Error -> _state.emit(
+                CharacterDetailState(
+                    error = result.message ?: "An unexpected error ocurred!"
+                )
+            )
         }
     }
 

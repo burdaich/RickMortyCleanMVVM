@@ -1,11 +1,14 @@
 package com.example.data.repository
 
+import androidx.paging.Pager
+import androidx.paging.PagingConfig
 import com.example.data.api.Api
 import com.example.data.database.databases.CharacterDatabase
 import com.example.data.extensions.characterEntityToCharacters
 import com.example.data.extensions.characterModelToCharacters
 import com.example.data.extensions.toCharacter
 import com.example.data.extensions.toCharacterEntity
+import com.example.data.paging.CharactersPagingSource
 import com.example.domain.model.Character
 import com.example.domain.model.Characters
 import com.example.domain.repository.CharactersRepository
@@ -15,13 +18,9 @@ class CharactersRepositoryImpl @Inject constructor(
     private val api: Api,
     private val characterDatabase: CharacterDatabase
 ) : CharactersRepository {
-    override suspend fun getCharacters(): Characters {
-        return api.getCharacters().characterModelToCharacters()
-    }
-
-    override suspend fun getCharactersByName(name: String): Characters {
-        return api.getCharactersByName(name).characterModelToCharacters()
-    }
+    override fun getCharacters(name: String?) = Pager(
+        config = PagingConfig(pageSize = 1, enablePlaceholders = false),
+        pagingSourceFactory = { CharactersPagingSource(api, name) }).flow
 
     override suspend fun addCharacterToFavorite(character: Character): Long {
         return characterDatabase.characterDao().insert(character.toCharacterEntity())

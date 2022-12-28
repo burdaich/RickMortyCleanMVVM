@@ -33,7 +33,6 @@
             android:layout_marginHorizontal="8dp"
             android:textColor="@color/black"
             android:textSize="24sp"
-            app:layout_constraintEnd_toStartOf="@+id/characterFavoriteIB"
             app:layout_constraintStart_toEndOf="@+id/characterCIV"
             app:layout_constraintTop_toTopOf="parent"
             tools:text="Name" />
@@ -46,18 +45,6 @@
             app:layout_constraintStart_toStartOf="@+id/characterNameTV"
             app:layout_constraintTop_toBottomOf="@id/characterNameTV"
             tools:text="Status" />
-
-        <ImageButton
-            android:id="@+id/characterFavoriteIB"
-            android:layout_width="24dp"
-            android:layout_height="24dp"
-            android:background="@color/white"
-            android:src="@drawable/ic_star"
-            app:layout_constraintBaseline_toBottomOf="parent"
-            app:layout_constraintBottom_toBottomOf="@+id/characterStatusTV"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/characterNameTV"
-            app:tint="@color/grey" />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>

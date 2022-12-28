@@ -11,7 +11,7 @@ import com.example.domain.model.CharactersInfo
 fun CharactersModel.characterModelToCharacters(): Characters {
     return Characters(
         info = info.toCharactersInfo(),
-        characters = results.characterModelToCharacters()
+        character = results.characterModelToCharacters()
     )
 }
 
