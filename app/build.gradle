@@ -82,5 +82,16 @@ dependencies {
 
     def paging_version = "3.1.1"
     implementation "androidx.paging:paging-runtime:$paging_version"
+
+
+    //TURBINE
+    def mockk_version = '1.12.4'
+    def turbine_version = '0.7.0'
+
+    testImplementation "app.cash.turbine:turbine:$turbine_version"
+    testImplementation "io.mockk:mockk:$mockk_version"
+
+    def coroutines_version = '1.6.4'
+    testImplementation "org.jetbrains.kotlinx:kotlinx-coroutines-test:$coroutines_version"
 }
 
