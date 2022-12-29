@@ -9,15 +9,9 @@ import javax.inject.Inject
 
 class AddCharacterToFavoriteUsesCase @Inject constructor(private val repository: CharactersRepository) {
 
-    operator fun invoke(character: Character): Flow<Resource<Character>> = flow {
-        try {
-            emit(Resource.Loading())
-            repository.addCharacterToFavorite(character)
-            character.isFavorite = true
-            emit(Resource.Success(character))
-        } catch (e: Exception) {
-            throw (e)
-            emit(Resource.Error("Couldn´t  retrieve data. Check your internet connection"))
-        }
+    operator fun invoke(character: Character): Flow<Resource<Long>> = flow {
+        emit(Resource.Loading())
+        val response = repository.addCharacterToFavorite(character)
+        emit(Resource.Success(response))
     }
 }

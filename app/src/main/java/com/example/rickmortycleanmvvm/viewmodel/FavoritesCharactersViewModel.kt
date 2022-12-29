@@ -1,6 +1,5 @@
 package com.example.rickmortycleanmvvm.viewmodel
 
-import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.domain.common.Resource
 import com.example.domain.uses_case.get_characters.GetFavoritesCharactersUsesCase
@@ -13,7 +12,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class FavoritesCharactersViewModel @Inject constructor(private val getFavoritesCharactersUsesCase: GetFavoritesCharactersUsesCase) :
-    ViewModel() {
+    BaseViewModel() {
     private val _state = MutableSharedFlow<FavoritesCharactersState>()
     val state: SharedFlow<FavoritesCharactersState> = _state
 
@@ -27,7 +26,7 @@ class FavoritesCharactersViewModel @Inject constructor(private val getFavoritesC
                     )
                     is Resource.Error -> _state.emit(
                         FavoritesCharactersState(
-                            error = result.message ?: "An unexpected error ocurred!"
+                            error = getErrorType(result)
                         )
                     )
                 }

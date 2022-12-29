@@ -12,6 +12,8 @@ import androidx.recyclerview.widget.GridLayoutManager
 import com.example.domain.model.Character
 import com.example.rickmortycleanmvvm.adapter.CharactersFavoritesAdapter
 import com.example.rickmortycleanmvvm.databinding.FragmentFavoriteBinding
+import com.example.rickmortycleanmvvm.extensions.observeResponse
+import com.example.rickmortycleanmvvm.view.fragments.base.BaseFragment
 import com.example.rickmortycleanmvvm.viewmodel.FavoritesCharactersViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
@@ -43,11 +45,9 @@ class FavoriteFragment : BaseFragment<FavoritesCharactersViewModel>() {
     private fun observeCharactersFavoritesResponse() {
         lifecycleScope.launch {
             viewModel.state.collect {
-                if (!it.isLoading) {
-                    if (it.error.isBlank()) {
-                        charactersFavoritesAdapter.submitList(it.characters)
-                        manageLayoutsVisibilities(it.characters?.isEmpty() ?: true)
-                    }
+                observeResponse(it, loadingDialog) {
+                    charactersFavoritesAdapter.submitList(it.data)
+                    manageLayoutsVisibilities(it.data?.isEmpty() ?: true)
                 }
             }
         }

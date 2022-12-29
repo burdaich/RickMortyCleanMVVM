@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.domain.model.Character
 import com.example.rickmortycleanmvvm.adapter.CharactersAdapter
 import com.example.rickmortycleanmvvm.databinding.FragmentCharactersBinding
+import com.example.rickmortycleanmvvm.view.fragments.base.BaseFragment
 import com.example.rickmortycleanmvvm.viewmodel.CharactersViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest

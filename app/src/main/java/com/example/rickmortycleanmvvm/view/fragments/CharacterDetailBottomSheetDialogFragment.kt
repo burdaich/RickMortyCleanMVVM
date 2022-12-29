@@ -17,8 +17,9 @@ import com.bumptech.glide.Glide
 import com.example.domain.model.Character
 import com.example.rickmortycleanmvvm.R
 import com.example.rickmortycleanmvvm.databinding.CharacterDetailBottomSheetBinding
+import com.example.rickmortycleanmvvm.extensions.observeResponse
+import com.example.rickmortycleanmvvm.view.fragments.base.BaseBottomSheetDialogFragment
 import com.example.rickmortycleanmvvm.viewmodel.CharacterDetailViewModel
-import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
@@ -27,9 +28,8 @@ class CharacterDetailBottomSheetDialogFragment(
     private val character: Character,
     private val callback: (() -> Unit)?
 ) :
-    BottomSheetDialogFragment() {
+    BaseBottomSheetDialogFragment<CharacterDetailViewModel>() {
 
-    private lateinit var viewModel: CharacterDetailViewModel
     private lateinit var binding: CharacterDetailBottomSheetBinding
     private lateinit var lottieDialog: LottieDialog
 
@@ -45,7 +45,7 @@ class CharacterDetailBottomSheetDialogFragment(
         viewModel = ViewModelProvider(this)[CharacterDetailViewModel::class.java]
         addDataToUI()
         buildListeners()
-        observeResponse()
+        observeCharacterDetailResponse()
 
         if (!character.isFavorite) viewModel.getCharacterFavoriteByApiId(character.id)
     }
@@ -67,12 +67,12 @@ class CharacterDetailBottomSheetDialogFragment(
         changeStarColorAndDescription(character.isFavorite)
     }
 
-    private fun observeResponse() {
+    private fun observeCharacterDetailResponse() {
         lifecycleScope.launch {
             viewModel.state.collect {
-                if (it.error.isEmpty()) {
-                    changeStarColorAndDescription(it.character?.isFavorite)
-                    if (it.isUpdated) showUpdateConfirmationDialog(it.character?.isFavorite)
+                observeResponse(it, loadingDialog) {
+                    changeStarColorAndDescription(it.data?.isFavorite)
+                    if (it.isUpdated) showUpdateConfirmationDialog(it.data?.isFavorite)
                 }
             }
         }

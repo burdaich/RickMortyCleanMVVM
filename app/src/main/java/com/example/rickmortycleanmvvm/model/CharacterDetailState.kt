@@ -3,8 +3,9 @@ package com.example.rickmortycleanmvvm.model
 import com.example.domain.model.Character
 import com.example.rickmortycleanmvvm.model.base.BaseState
 
-class FavoritesCharactersState(
+class CharacterDetailState(
     isLoading: Boolean = false,
-    characters: List<Character>? = null,
+    character: Character? = null,
+    val isUpdated: Boolean = false,
     error: ErrorType? = null
-) : BaseState<List<Character>>(isLoading, characters, error)
+) : BaseState<Character>(isLoading, character, error)
